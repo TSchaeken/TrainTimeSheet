@@ -7,26 +7,38 @@ var config = {
   storageBucket: "literallythebestproject.appspot.com",
   messagingSenderId: "550980575030"
 };
+
 firebase.initializeApp(config);
+
 const database = firebase.database();
+
+// $(document).ready(function(){
+//   database.ref().set({
+//     item:""
+//   });
+// })
 
 $(".submit-form").on("click", "#Submit-Btn", function(event) {
   event.preventDefault();
-  console.log("setting!")
-  var trainName = $("#train-name").val();
-  var trainDestination = $("#train-destination").val();
-  var trainStart = $("#train-start").val();
-  var trainInterval = $("#train-interval").val();
-  var trainNotes = $("#train-notes").val();
-  set(trainName, trainDestination, trainStart, trainInterval, trainNotes)
+  set();
+
 });
 
-function set(name, destination, start, interval, note) {
-  database.ref().set({
-    Name: name,
-    Destination: destination,
-    StartTime: start,
-    intervalTime: interval,
-    Note: note
-  });
+function set() {
+  var key = database.ref().push().key;
+
+  var trainData = {
+    id: key,
+    Name: $("#train-name").val(),
+    Destination: $("#train-destination").val(),
+    StartTime: $("#train-start").val(),
+    intervalTime: $("#train-interval").val(),
+    Note: $("#train-notes").val()
+  };
+
+  database.ref(key).set(trainData);
+}
+
+function table() {
+  var row = $("<tr>")
 }
