@@ -1,5 +1,5 @@
 // Initialize Firebase
-var config = {
+const config = {
   apiKey: "AIzaSyAf0eG3wQgcc59Wa3JaCQhwgpHIM_I11EY",
   authDomain: "literallythebestproject.firebaseapp.com",
   databaseURL: "https://literallythebestproject.firebaseio.com",
@@ -12,22 +12,16 @@ firebase.initializeApp(config);
 
 const database = firebase.database();
 
-// $(document).ready(function(){
-//   database.ref().set({
-//     item:""
-//   });
-// })
-
 $(".submit-form").on("click", "#Submit-Btn", function(event) {
   event.preventDefault();
   set();
-
+  table();
+   console.log((parseInt(moment().format("HH")*60)+parseInt(moment().format("mm")))%22)
 });
 
 function set() {
-  var key = database.ref().push().key;
-
-  var trainData = {
+  const key = database.ref().push().key;
+  const trainData = {
     id: key,
     Name: $("#train-name").val(),
     Destination: $("#train-destination").val(),
@@ -40,5 +34,14 @@ function set() {
 }
 
 function table() {
-  var row = $("<tr>")
+  const row = $("<tr>");
+  var name = $("<td>").text($("#train-name").val());
+  var dest = $("<td>").text($("#train-destination").val());
+  var next = $("<td>").text(parseInt($("#train-interval").val())-((parseInt(moment().format("HH")*60) + parseInt(moment().format("mm")))%parseInt($("#train-interval").val())));
+  var start = $("<td>").text($("#train-start").val());
+  var notes = $("<td>").text($("#train-notes").val());
+  var int = $("<td>").text($("#train-interval").val());
+  row.append(name, dest, start, int, next, notes)
+  $("#tbody").prepend(row)
+  console.log(next)
 }
